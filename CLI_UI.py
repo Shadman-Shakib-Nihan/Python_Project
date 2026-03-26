@@ -4,7 +4,7 @@ class CashFlow:
     def __init__(self):
         self.manager = FinanceService()
         
-        
+    # Add income method    
     def add_income(self):
         print("--- Add Income ---")
         
@@ -15,6 +15,7 @@ class CashFlow:
         self.manager.add_income(amount, category, date)
         print("Income added successfully!")
     
+    # Adding expense method
     def add_expense(self):
         print("--- Add Expense ---")
         
@@ -24,6 +25,17 @@ class CashFlow:
         
         self.manager.add_expense(amount, category, date)
         print("Expense added successfully!")
+    
+    #delete transaction method
+    def delete_transaction(self):    
+        try:
+            id = int(input("\nEnter Transaction ID to delete: "))
+            if self.manager.delete_transaction(id):
+                print(f"Transaction {id} deleted.")
+            else:
+                print("Transaction ID not found.")
+        except ValueError:
+            print("Invalid ID.")
        
     def display_features(self):
         while True:
@@ -49,7 +61,7 @@ class CashFlow:
                 case '4':
                     pass
                 case '5':
-                    pass
+                    self.delete_transaction()
                 case '6':
                     pass
                 case '7':
