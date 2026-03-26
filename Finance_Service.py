@@ -72,4 +72,18 @@ class FinanceService:
                 break
         return self.storage.save(data)   
     
-    
+    # Get summary method
+    def get_summary(self):
+        """Calculate total income, expenses, and balance."""
+        data = self.storage.load()
+        
+        total_income = sum(entry["amount"] for entry in data if entry["type"] == "income")
+        total_expenses = sum(entry["amount"] for entry in data if entry["type"] == "expense")
+        
+        balance = total_income - total_expenses
+        
+        return {
+            "total_income": total_income,
+            "total_expenses": total_expenses,
+            "balance": balance
+        }
