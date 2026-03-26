@@ -35,7 +35,7 @@ class FinanceService:
         data.append(new_entry)
         return self.storage.save(data)
     
-     # Delete transaction method
+    # Delete transaction method
     def delete_transaction(self, id):
         """Delete a transaction by ID."""
         data = self.storage.load()
@@ -45,6 +45,19 @@ class FinanceService:
             return False
         return self.storage.save(new_data) 
         
-        
+    # Update transaction method
+    def update_transaction(self, id, amount, category, date):
+        """Update a transaction by ID."""
+        data = self.storage.load()
+        for entry in data:
+            if entry["id"] == id:
+                if amount :
+                    entry["amount"] = amount
+                if category :
+                    entry["category"] = category
+                if date :
+                    entry["date"] = date
+                break
+        return self.storage.save(data)   
     
     

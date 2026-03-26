@@ -36,7 +36,28 @@ class CashFlow:
                 print("Transaction ID not found.")
         except ValueError:
             print("Invalid ID.")
-       
+    
+    # update transaction method        
+    def update_transaction(self):
+        
+        try:
+            id = int(input("\nEnter Transaction ID to update: "))
+            
+            amount_input = input("New Amount (leave blank to keep current): ").strip()
+            category_input = input("New Category (leave blank to keep current): ").strip()
+            date_input = input("New Date (DD-MM-YYYY, leave blank to keep current): ").strip()
+            
+            amount = float(amount_input) if amount_input else None
+            category = category_input if category_input else None
+            date = date_input if date_input else None
+            
+            if self.manager.update_transaction(id, amount, category, date):
+                print(f"Transaction {id} updated.")
+            else:
+                print("Transaction ID not found.")
+        except ValueError:
+            print("Invalid input.")   
+        
     def display_features(self):
         while True:
             
@@ -63,7 +84,7 @@ class CashFlow:
                 case '5':
                     self.delete_transaction()
                 case '6':
-                    pass
+                    self.update_transaction()
                 case '7':
                     pass
                 case '0':
