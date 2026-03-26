@@ -35,6 +35,11 @@ class FinanceService:
         data.append(new_entry)
         return self.storage.save(data)
     
+    # View all transactions method
+    def view_transactions(self):
+        """Return all transactions."""
+        return self.storage.load()
+    
     # Delete transaction method
     def delete_transaction(self, id):
         """Delete a transaction by ID."""

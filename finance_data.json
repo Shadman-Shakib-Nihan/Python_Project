@@ -1,16 +1,16 @@
 [
     {
-        "id": 1,
-        "category": "salary",
-        "amount": 10000.0,
-        "date": "24-03-2025",
-        "type": "income"
-    },
-    {
         "id": 2,
         "category": "Salary",
         "amount": 60000.0,
         "date": "2-3-2026",
+        "type": "income"
+    },
+    {
+        "id": 3,
+        "category": "Sell",
+        "amount": 4000.0,
+        "date": "12-03-2026",
         "type": "income"
     }
 ]

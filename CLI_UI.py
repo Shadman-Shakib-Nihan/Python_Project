@@ -1,4 +1,5 @@
 from Finance_Service import FinanceService
+from tabulate import tabulate
 
 class CashFlow:
     def __init__(self):
@@ -25,7 +26,19 @@ class CashFlow:
         
         self.manager.add_expense(amount, category, date)
         print("Expense added successfully!")
-    
+        
+    # View All transactions
+    def view_transactions(self):
+        
+        data = self.manager.view_transactions()
+        
+        if not data:
+            print("No transactions found!")
+            return
+        
+        table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in data]
+        print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
+        
     #delete transaction method
     def delete_transaction(self):    
         try:
@@ -78,7 +91,7 @@ class CashFlow:
                 case '2':
                     self.add_expense()
                 case '3':
-                    pass
+                    self.view_transactions()
                 case '4':
                     pass
                 case '5':
