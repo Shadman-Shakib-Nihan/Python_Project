@@ -40,6 +40,13 @@ class FinanceService:
         """Return all transactions."""
         return self.storage.load()
     
+    # Search transactions method
+    def search_transactions(self, query):
+        """Search transactions by category or date."""
+        data = self.storage.load()
+
+        return [entry for entry in data if query.lower() in entry["category"].lower() or query in entry["date"]]
+    
     # Delete transaction method
     def delete_transaction(self, id):
         """Delete a transaction by ID."""
