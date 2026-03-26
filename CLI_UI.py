@@ -38,6 +38,22 @@ class CashFlow:
         
         table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in data]
         print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
+    
+    #search transactions method
+    def search_transactions(self):
+        query = input("\nEnter Category/Date(DD-MM-YYYY): ").strip()
+        if not query:
+            return
+        
+        results = self.manager.search_transactions(query)
+        if not results:
+            print( "No results found." )
+            return
+        
+        table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in results]
+        print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
+        
+        return True
         
     #delete transaction method
     def delete_transaction(self):    
@@ -93,7 +109,7 @@ class CashFlow:
                 case '3':
                     self.view_transactions()
                 case '4':
-                    pass
+                    self.search_transactions()
                 case '5':
                     self.delete_transaction()
                 case '6':
