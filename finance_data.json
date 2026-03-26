@@ -1,0 +1,9 @@
+[
+    {
+        "id": 1,
+        "category": "salary",
+        "amount": 5000.0,
+        "date": "03-05-2026",
+        "type": "income"
+    }
+]
