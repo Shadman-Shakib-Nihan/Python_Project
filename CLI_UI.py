@@ -14,7 +14,17 @@ class CashFlow:
         
         self.manager.add_income(amount, category, date)
         print("Income added successfully!")
+    
+    def add_expense(self):
+        print("--- Add Expense ---")
         
+        amount = float(input("Amount: "))
+        category = input("Category: ")
+        date = input("Date (DD-MM-YYYY): ")
+        
+        self.manager.add_expense(amount, category, date)
+        print("Expense added successfully!")
+       
     def display_features(self):
         while True:
             
@@ -33,7 +43,7 @@ class CashFlow:
                 case '1':
                     self.add_income()
                 case '2':
-                    pass
+                    self.add_expense()
                 case '3':
                     pass
                 case '4':
