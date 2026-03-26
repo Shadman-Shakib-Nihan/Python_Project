@@ -86,6 +86,22 @@ class CashFlow:
                 print("Transaction ID not found.")
         except ValueError:
             print("Invalid input.")   
+    
+    #view summary report method
+    def view_summary_report(self):
+        summary = self.manager.get_summary()
+        if not summary:
+            print("No transactions found!")
+            return
+        
+        total_income = summary["total_income"]
+        total_expenses = summary["total_expenses"]
+        balance = summary["balance"]
+        
+        print("\n--- Summary Report ---")
+        print(f"Total Income: ${total_income:.2f}")
+        print(f"Total Expenses: -${total_expenses:.2f}")
+        print(f"Net Balance: ${balance:.2f}")
         
     def display_features(self):
         while True:
@@ -115,7 +131,7 @@ class CashFlow:
                 case '6':
                     self.update_transaction()
                 case '7':
-                    pass
+                    self.view_summary_report()
                 case '0':
                     pass
                 case _:
