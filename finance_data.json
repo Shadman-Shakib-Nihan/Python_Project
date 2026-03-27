@@ -40,5 +40,19 @@
         "amount": 2000.0,
         "date": "02-03-2026",
         "type": "expense"
+    },
+    {
+        "id": 8,
+        "category": "Salary",
+        "amount": 100000.0,
+        "date": "28-03-2026",
+        "type": "income"
+    },
+    {
+        "id": 9,
+        "category": "wifi bill",
+        "amount": 1200.0,
+        "date": "28-03-2026",
+        "type": "expense"
     }
 ]

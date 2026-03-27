@@ -45,7 +45,9 @@ class CashFlow:
     # Add income
     def add_income(self):
         
-        print("--- Add Income ---")
+        print("+------------------+")
+        print(f"|   {Fore.LIGHTMAGENTA_EX}ADD INCOME{Style.RESET_ALL}     |")
+        print("+------------------+")
         
         print(Fore.CYAN + "Press Enter to use the default category (Salary), or type your own category.")
         while True:
@@ -71,7 +73,9 @@ class CashFlow:
     # add expense   
     def add_expense(self):
         
-        print("--- Add Expense ---")
+        print("+------------------+")
+        print(f"|   {Fore.LIGHTMAGENTA_EX}ADD EXPENSE{Style.RESET_ALL}    |")
+        print("+------------------+")
         
         while True:
             category = input("Category: ").strip()
@@ -79,7 +83,7 @@ class CashFlow:
                 print(Fore.RED + "Category cannot be empty!")
                 continue
             
-            if len(category) <= 2 or not category.isalpha():
+            if len(category) <= 2 or not category.replace(" ", "").isalpha():
                 print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
                 continue
             break
@@ -107,19 +111,21 @@ class CashFlow:
     
     #search transactions method
     def search_transactions(self):
-        query = input("\nEnter Category/Date(DD-MM-YYYY): ").strip()
-        if not query:
-            return
+        while True:
+            query = input("\nEnter Category/Date(DD-MM-YYYY): ").strip()
+            if not query:
+                return
+            
+            results = self.manager.search_transactions(query)
+            if not results:
+                print(Fore.RED + "No results found." )
+                continue
+            
+            
+            table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in results]
+            print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
+            break
         
-        results = self.manager.search_transactions(query)
-        if not results:
-            print( "No results found." )
-            return
-        
-        table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in results]
-        print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
-        
-        return True
         
     #delete transaction method
     def delete_transaction(self):
@@ -146,24 +152,46 @@ class CashFlow:
     
     # update transaction method        
     def update_transaction(self):
-        
-        try:
-            id = int(input("\nEnter Transaction ID to update: "))
-            
-            amount_input = input("New Amount (leave blank to keep current): ").strip()
-            category_input = input("New Category (leave blank to keep current): ").strip()
-            date_input = input("New Date (DD-MM-YYYY, leave blank to keep current): ").strip()
-            
-            amount = float(amount_input) if amount_input else None
-            category = category_input if category_input else None
-            date = date_input if date_input else None
-            
-            if self.manager.update_transaction(id, amount, category, date):
-                print(Fore.GREEN + f"Transaction {id} updated.")
+        while True:
+            query = input("\n1.Income\n2.Expense\n Press 1/2 or Enter type to find the transaction you want to update: ").strip().lower()
+            if query == "1" or query == "income":
+                query = "income"
+            elif query == "2" or query == "expense":
+                query = "expense"
             else:
-                print(Fore.RED + "Transaction ID not found.")
-        except ValueError:
-            print(Fore.RED + "Invalid input.")   
+                print(Fore.RED + "Invalid input. Please enter '1' for Income or '2' for Expense.")
+                continue
+            
+            results = self.manager.search_transactions(query)
+            if not results:
+                print(Fore.RED + "No results found." )
+                return
+            
+            table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in results]
+            print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
+            break
+        while True:
+            try:
+                id = int(input("\nEnter Transaction ID to update: "))
+                if not any(entry["id"] == id for entry in results):
+                    print(Fore.RED + "Transaction ID not found.")
+                    continue
+                
+                amount_input = input("New Amount (leave blank to keep current): ").strip()
+                category_input = input("New Category (leave blank to keep current): ").strip()
+                date_input = input("New Date (DD-MM-YYYY, leave blank to keep current): ").strip()
+                
+                amount = float(amount_input) if amount_input else None
+                category = category_input if category_input else None
+                date = date_input if date_input else None
+                
+                if self.manager.update_transaction(id, amount, category, date):
+                    print(Fore.GREEN + f"Transaction {id} updated.")
+                else:
+                    print(Fore.RED + "Transaction ID not found.")
+            except ValueError:
+                print(Fore.RED + "Invalid input.")
+            break   
     
     #view summary report method
     def view_summary_report(self):

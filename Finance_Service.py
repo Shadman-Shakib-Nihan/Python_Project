@@ -45,6 +45,11 @@ class FinanceService:
         """Search transactions by category or date."""
         data = self.storage.load()
 
+        if query == "income":
+            return [entry for entry in data if entry["type"] == "income"]
+        elif query == "expense":
+            return [entry for entry in data if entry["type"] == "expense"]
+        
         return [entry for entry in data if query.lower() in entry["category"].lower() or query in entry["date"]]
     
     # Delete transaction method
