@@ -1,9 +1,9 @@
-from CLI_UI import CashFlow
+from Features import Feature
 
 def main():
     
     """Main entry point of the application."""
-    display = CashFlow()
+    display = Feature()
     
     try:
         display.display_features()
