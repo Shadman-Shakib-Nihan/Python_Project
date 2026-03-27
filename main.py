@@ -1,12 +1,12 @@
-from Features import Feature
+from CLI_Ui import CashFlow
 
 def main():
     
     """Main entry point of the application."""
-    display = Feature()
+    display = CashFlow()
     
     try:
-        display.display_features()
+        display.display_UI()
     except KeyboardInterrupt:
         print("\n\nProgram terminated by user. Stay safe!")
         
