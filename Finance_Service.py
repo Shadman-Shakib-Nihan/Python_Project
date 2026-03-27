@@ -87,3 +87,4 @@ class FinanceService:
             "total_expenses": total_expenses,
             "balance": balance
         }
+    

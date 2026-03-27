@@ -1,10 +1,5 @@
 from Finance_Service import FinanceService
 from tabulate import tabulate
-import sys
-from colorama import Fore, Style, init
-
-# initial colorama
-init(autoreset=True)
 
 class CashFlow:
     def __init__(self):
@@ -19,7 +14,7 @@ class CashFlow:
         date = input("Date (DD-MM-YYYY): ")
         
         self.manager.add_income(amount, category, date)
-        print(Fore.GREEN + "Income added successfully!")
+        print("Income added successfully!")
     
     # Adding expense method
     def add_expense(self):
@@ -30,7 +25,7 @@ class CashFlow:
         date = input("Date (DD-MM-YYYY): ")
         
         self.manager.add_expense(amount, category, date)
-        print(Fore.GREEN + "Expense added successfully!")
+        print("Expense added successfully!")
         
     # View All transactions
     def view_transactions(self):
@@ -65,11 +60,11 @@ class CashFlow:
         try:
             id = int(input("\nEnter Transaction ID to delete: "))
             if self.manager.delete_transaction(id):
-                print(Fore.GREEN + f"Transaction {id} deleted.")
+                print(f"Transaction {id} deleted.")
             else:
-                print(Fore.RED + "Transaction ID not found.")
+                print("Transaction ID not found.")
         except ValueError:
-            print(Fore.RED + "Invalid ID.")
+            print("Invalid ID.")
     
     # update transaction method        
     def update_transaction(self):
@@ -86,17 +81,17 @@ class CashFlow:
             date = date_input if date_input else None
             
             if self.manager.update_transaction(id, amount, category, date):
-                print(Fore.GREEN + f"Transaction {id} updated.")
+                print(f"Transaction {id} updated.")
             else:
-                print(Fore.RED + "Transaction ID not found.")
+                print("Transaction ID not found.")
         except ValueError:
-            print(Fore.RED + "Invalid input.")   
+            print("Invalid input.")   
     
     #view summary report method
     def view_summary_report(self):
         summary = self.manager.get_summary()
         if not summary:
-            print(Fore.RED + "No transactions found!")
+            print("No transactions found!")
             return
         
         total_income = summary["total_income"]
@@ -104,21 +99,21 @@ class CashFlow:
         balance = summary["balance"]
         
         print("\n--- Summary Report ---")
-        print(Fore.GREEN + f"Total Income: ${total_income:.2f}")
-        print(Fore.RED + f"Total Expenses: -${total_expenses:.2f}")
-        print(Fore.BLUE + f"Net Balance: ${balance:.2f}")
+        print(f"Total Income: ${total_income:.2f}")
+        print(f"Total Expenses: -${total_expenses:.2f}")
+        print(f"Net Balance: ${balance:.2f}")
         
     def display_features(self):
         while True:
             
-            print("1. " + Fore.GREEN + "Add a new income" + Style.RESET_ALL)
-            print("2. " + Fore.GREEN + "Add a new expense" + Style.RESET_ALL)
-            print("3. " + Fore.BLUE + "View all transactions" + Style.RESET_ALL)
-            print("4. " + Fore.BLUE + "Search for a transaction" + Style.RESET_ALL)
-            print("5. " + Fore.RED + "Delete a transaction" + Style.RESET_ALL)
-            print("6. " + Fore.MAGENTA + "Update a transaction" + Style.RESET_ALL)
-            print("7. " + Fore.MAGENTA + "View summary report" + Style.RESET_ALL)
-            print("0. " + Fore.RED + "Exit" + Style.RESET_ALL)    
+            print("1. " +  "Add a new income" )
+            print("2. " + "Add a new expense" )
+            print("3. " + "View all transactions" )
+            print("4. " + "Search for a transaction" )
+            print("5. " + "Delete a transaction" )
+            print("6. " + "Update a transaction" )
+            print("7. " + "View summary report" )
+            print("0. " + "Exit" )    
             
             choice = input("\nChoose an option: ")
                 
@@ -138,8 +133,7 @@ class CashFlow:
                 case '7':
                     self.view_summary_report()
                 case '0':
-                    print(Fore.GREEN + "Thank you for using the Cash Flow CLI!" + Style.RESET_ALL)
-                    sys.exit()
+                    pass
                 case _:
                     print( "Invalid choice. Please try again." )        
             

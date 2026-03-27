@@ -12,5 +12,19 @@
         "amount": 4000.0,
         "date": "12-03-2026",
         "type": "income"
+    },
+    {
+        "id": 4,
+        "category": "water bill",
+        "amount": 400.0,
+        "date": "10-03-2026",
+        "type": "expense"
+    },
+    {
+        "id": 5,
+        "category": "as123",
+        "amount": -1000.0,
+        "date": "2026-1-2",
+        "type": "income"
     }
 ]
