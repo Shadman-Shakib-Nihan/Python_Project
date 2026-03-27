@@ -1,9 +1,9 @@
-from CLI_Ui import CashFlow
+from CLI_UI import UI
 
 def main():
     
     """Main entry point of the application."""
-    display = CashFlow()
+    display = UI()
     
     try:
         display.display_UI()

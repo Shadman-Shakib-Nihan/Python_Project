@@ -122,7 +122,19 @@ class CashFlow:
         return True
         
     #delete transaction method
-    def delete_transaction(self):    
+    def delete_transaction(self):
+        while True:
+            query = input("\nEnter a category/date (DD-MM-YYYY) to find the transaction you want to delete: ").strip()
+            
+            results = self.manager.search_transactions(query)
+            if not results:
+                print(Fore.RED + "No results found." )
+                continue
+            
+            table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in results]
+            print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
+            break    
+                
         try:
             id = int(input("\nEnter Transaction ID to delete: "))
             if self.manager.delete_transaction(id):

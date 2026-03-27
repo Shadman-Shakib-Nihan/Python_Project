@@ -5,7 +5,7 @@ import sys
 # Initialize colorama
 init(autoreset=True)    
 
-class Feature(CashFlow):
+class UI(CashFlow):
     
         
     def display_UI(self):
