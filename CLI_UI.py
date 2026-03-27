@@ -6,10 +6,18 @@ import sys
 init(autoreset=True)    
 
 class UI(CashFlow):
-    
-        
+    def display_header(self):
+        title = "💸 Cash Flow CLI 💸"
+        print(Fore.CYAN + " " + "=" * 50)
+        print(Fore.CYAN + "|" + " " * 50 + "|")
+        print(f"{Fore.CYAN}|{Style.RESET_ALL} {Fore.YELLOW}{title.center(46)}{Style.RESET_ALL} {Fore.CYAN}|{Style.RESET_ALL}")
+        print(Fore.CYAN + "|" + " " * 50 + "|")
+        print(Fore.CYAN + " " + "=" * 50)
+        print("\n")
+
     def display_UI(self):
         while True:
+            self.display_header()
             print("1. " + Fore.GREEN + "Add a new income" + Style.RESET_ALL)
             print("2. " + Fore.GREEN + "Add a new expense" + Style.RESET_ALL)
             print("3. " + Fore.BLUE + "View all transactions" + Style.RESET_ALL)

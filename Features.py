@@ -66,7 +66,7 @@ class CashFlow:
                     
         amount, date = data
         self.manager.add_income(amount, category, date )
-        print(Fore.GREEN + "Income added successfully!")
+        print(Fore.GREEN + "Income added successfully!\n")
      
     
     
@@ -95,7 +95,7 @@ class CashFlow:
         amount, date = data
         
         self.manager.add_expense(amount, category, date)
-        print(Fore.GREEN + "Expense added successfully!")
+        print(Fore.GREEN + "Expense added successfully!\n")
         
     # View All transactions
     def view_transactions(self):
@@ -144,7 +144,7 @@ class CashFlow:
         try:
             id = int(input("\nEnter Transaction ID to delete: "))
             if self.manager.delete_transaction(id):
-                print(Fore.GREEN + f"Transaction {id} deleted.")
+                print(Fore.GREEN + f"Transaction {id} deleted.\n")
             else:
                 print(Fore.RED + "Transaction ID not found.")
         except ValueError:
@@ -186,7 +186,7 @@ class CashFlow:
                 date = date_input if date_input else None
                 
                 if self.manager.update_transaction(id, amount, category, date):
-                    print(Fore.GREEN + f"Transaction {id} updated.")
+                    print(Fore.GREEN + f"Transaction {id} updated.\n")
                 else:
                     print(Fore.RED + "Transaction ID not found.")
             except ValueError:

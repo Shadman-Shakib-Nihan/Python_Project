@@ -54,5 +54,12 @@
         "amount": 1200.0,
         "date": "28-03-2026",
         "type": "expense"
+    },
+    {
+        "id": 10,
+        "category": "Salary",
+        "amount": 10000.0,
+        "date": "28-03-2026",
+        "type": "income"
     }
 ]
