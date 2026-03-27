@@ -2,6 +2,8 @@ from Finance_Service import FinanceService
 from tabulate import tabulate
 import sys
 from colorama import Fore, Style, init
+from datetime import datetime
+
 
 # initial colorama
 init(autoreset=True)
@@ -9,26 +11,84 @@ init(autoreset=True)
 class CashFlow:
     def __init__(self):
         self.manager = FinanceService()
-        
-    # Add income method    
+    
+    # Get the transaction input from the user
+    def get_transaction_input(self,):
+        while True:
+            try:
+                
+                amount = float(input("Amount: "))
+                if amount > 0:
+                    break
+                else:
+                    print(Fore.RED + "Amount cannot be zero or negative!")
+            except ValueError:
+                print(Fore.RED + "Invalid amount. Please enter a number.")
+                continue
+
+        print(Fore.CYAN + "Press Enter to use today's date, or enter a date (DD-MM-YYYY).")
+        while True:
+            date = input("Date (DD-MM-YYYY): ").strip()
+            
+            if not date:
+                date = datetime.now().strftime("%d-%m-%Y")
+                
+            if date:
+                try:
+                    datetime.strptime(date, "%d-%m-%Y")
+                    break
+                except ValueError:
+                    print(Fore.RED + "Invalid date format. Please use DD-MM-YYYY.")
+
+        return amount, date
+       
+    # Add income
     def add_income(self):
+        
         print("--- Add Income ---")
         
-        amount = float(input("Amount: "))
-        category = input("Category: ")
-        date = input("Date (DD-MM-YYYY): ")
+        print(Fore.CYAN + "Press Enter to use the default category (Salary), or type your own category.")
+        while True:
+            category = input("Category: ").strip()
+            if not category:
+                category = "Salary"
+            
+            if len(category) <= 2 or not category.isalpha():
+                print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
+                continue
+            break 
         
-        self.manager.add_income(amount, category, date)
+        data = self.get_transaction_input()
+        if not data:
+            return
+                    
+        amount, date = data
+        self.manager.add_income(amount, category, date )
         print(Fore.GREEN + "Income added successfully!")
+     
     
     
-    # Adding expense method
+    # add expense   
     def add_expense(self):
+        
         print("--- Add Expense ---")
         
-        amount = float(input("Amount: "))
-        category = input("Category: ")
-        date = input("Date (DD-MM-YYYY): ")
+        while True:
+            category = input("Category: ").strip()
+            if not category:
+                print(Fore.RED + "Category cannot be empty!")
+                continue
+            
+            if len(category) <= 2 or not category.isalpha():
+                print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
+                continue
+            break
+        
+        data = self.get_transaction_input()
+        if not data:
+            return
+        
+        amount, date = data
         
         self.manager.add_expense(amount, category, date)
         print(Fore.GREEN + "Expense added successfully!")
