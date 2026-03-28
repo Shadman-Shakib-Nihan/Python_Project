@@ -61,5 +61,47 @@
         "amount": 10000.0,
         "date": "28-03-2026",
         "type": "income"
+    },
+    {
+        "id": 11,
+        "category": "Salary",
+        "amount": 10000.0,
+        "date": "28-03-2026",
+        "type": "income"
+    },
+    {
+        "id": 12,
+        "category": "Salary",
+        "amount": 10000.0,
+        "date": "28-03-2026",
+        "type": "income"
+    },
+    {
+        "id": 13,
+        "category": "food",
+        "amount": 1000.0,
+        "date": "28-03-2026",
+        "type": "expense"
+    },
+    {
+        "id": 14,
+        "category": "Salary",
+        "amount": 5000.0,
+        "date": "28-03-2026",
+        "type": "income"
+    },
+    {
+        "id": 15,
+        "category": "warer",
+        "amount": 20.0,
+        "date": "28-03-2026",
+        "type": "expense"
+    },
+    {
+        "id": 16,
+        "category": "Salary",
+        "amount": 4000.0,
+        "date": "28-03-2026",
+        "type": "income"
     }
 ]

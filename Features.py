@@ -1,6 +1,5 @@
 from Finance_Service import FinanceService
 from tabulate import tabulate
-import sys
 from colorama import Fore, Style, init
 from datetime import datetime
 
@@ -32,6 +31,7 @@ class CashFlow:
             
             if not date:
                 date = datetime.now().strftime("%d-%m-%Y")
+                print(f"Date: {Fore.GREEN}{date}")
                 
             if date:
                 try:
@@ -47,15 +47,16 @@ class CashFlow:
         
         print("+------------------+")
         print(f"|   {Fore.LIGHTMAGENTA_EX}ADD INCOME{Style.RESET_ALL}     |")
-        print("+------------------+")
+        print("+------------------+\n")
         
         print(Fore.CYAN + "Press Enter to use the default category (Salary), or type your own category.")
         while True:
             category = input("Category: ").strip()
             if not category:
                 category = "Salary"
+                print("Category: " + Fore.GREEN + category)
             
-            if len(category) <= 2 or not category.isalpha():
+            if len(category) <= 2 or not category.replace(" ", "").isalpha():
                 print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
                 continue
             break 
@@ -66,7 +67,7 @@ class CashFlow:
                     
         amount, date = data
         self.manager.add_income(amount, category, date )
-        print(Fore.GREEN + "Income added successfully!\n")
+        print(Fore.GREEN + "\nIncome added successfully!\n")
      
     
     
@@ -75,7 +76,7 @@ class CashFlow:
         
         print("+------------------+")
         print(f"|   {Fore.LIGHTMAGENTA_EX}ADD EXPENSE{Style.RESET_ALL}    |")
-        print("+------------------+")
+        print("+------------------+\n")
         
         while True:
             category = input("Category: ").strip()
@@ -95,7 +96,7 @@ class CashFlow:
         amount, date = data
         
         self.manager.add_expense(amount, category, date)
-        print(Fore.GREEN + "Expense added successfully!\n")
+        print(Fore.GREEN + "\nExpense added successfully!\n")
         
     # View All transactions
     def view_transactions(self):
@@ -153,7 +154,7 @@ class CashFlow:
     # update transaction method        
     def update_transaction(self):
         while True:
-            query = input("\n1.Income\n2.Expense\n Press 1/2 or Enter type to find the transaction you want to update: ").strip().lower()
+            query = input("\n1.Income\n2.Expense\nPress 1/2 or Enter type to find the transaction you want to update: ").strip().lower()
             if query == "1" or query == "income":
                 query = "income"
             elif query == "2" or query == "expense":
@@ -177,11 +178,11 @@ class CashFlow:
                     print(Fore.RED + "Transaction ID not found.")
                     continue
                 
-                amount_input = input("New Amount (leave blank to keep current): ").strip()
+                amount_input = float(input("New Amount (leave blank to keep current): ").strip())
                 category_input = input("New Category (leave blank to keep current): ").strip()
                 date_input = input("New Date (DD-MM-YYYY, leave blank to keep current): ").strip()
                 
-                amount = float(amount_input) if amount_input else None
+                amount = amount_input if amount_input else None
                 category = category_input if category_input else None
                 date = date_input if date_input else None
                 
