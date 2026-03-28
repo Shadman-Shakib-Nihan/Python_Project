@@ -2,6 +2,7 @@ from Finance_Service import FinanceService
 from tabulate import tabulate
 from colorama import Fore, Style, init
 from datetime import datetime
+from utils import ValidationError, InputData
 
 
 # initial colorama
@@ -10,38 +11,10 @@ init(autoreset=True)
 class CashFlow:
     def __init__(self):
         self.manager = FinanceService()
-    
-    # Get the transaction input from the user
-    def get_transaction_input(self,):
-        while True:
-            try:
-                
-                amount = float(input("Amount: "))
-                if amount > 0:
-                    break
-                else:
-                    print(Fore.RED + "Amount cannot be zero or negative!")
-            except ValueError:
-                print(Fore.RED + "Invalid amount. Please enter a number.")
-                continue
-
-        print(Fore.CYAN + "Press Enter to use today's date, or enter a date (DD-MM-YYYY).")
-        while True:
-            date = input("Date (DD-MM-YYYY): ").strip()
-            
-            if not date:
-                date = datetime.now().strftime("%d-%m-%Y")
-                print(f"Date: {Fore.GREEN}{date}")
-                
-            if date:
-                try:
-                    datetime.strptime(date, "%d-%m-%Y")
-                    break
-                except ValueError:
-                    print(Fore.RED + "Invalid date format. Please use DD-MM-YYYY.")
-
-        return amount, date
-       
+        self.validator = ValidationError()
+        self.input_handler = InputData()    
+        
+         
     # Add income
     def add_income(self):
         
@@ -56,20 +29,15 @@ class CashFlow:
                 category = "Salary"
                 print("Category: " + Fore.GREEN + category)
             
-            if len(category) <= 2 or not category.replace(" ", "").isalpha():
+            if not self.validator.categoryValidation(category):
                 print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
                 continue
             break 
         
-        data = self.get_transaction_input()
-        if not data:
-            return
-                    
-        amount, date = data
+        data = self.input_handler.takeInputData()   
+        date, amount = data 
         self.manager.add_income(amount, category, date )
         print(Fore.GREEN + "\nIncome added successfully!\n")
-     
-    
     
     # add expense   
     def add_expense(self):
@@ -84,17 +52,13 @@ class CashFlow:
                 print(Fore.RED + "Category cannot be empty!")
                 continue
             
-            if len(category) <= 2 or not category.replace(" ", "").isalpha():
+            if not self.validator.categoryValidation(category):
                 print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
                 continue
             break
         
-        data = self.get_transaction_input()
-        if not data:
-            return
-        
-        amount, date = data
-        
+        data = self.input_handler.takeInputData()
+        date, amount = data 
         self.manager.add_expense(amount, category, date)
         print(Fore.GREEN + "\nExpense added successfully!\n")
         
@@ -171,27 +135,58 @@ class CashFlow:
             table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in results]
             print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
             break
+        
         while True:
             try:
                 id = int(input("\nEnter Transaction ID to update: "))
-                if not any(entry["id"] == id for entry in results):
-                    print(Fore.RED + "Transaction ID not found.")
+                selected_entry = next((entry for entry in results if entry["id"] == id), None)
+                if not selected_entry:
+                    print(Fore.RED + "Transaction ID not found in the search results.")
                     continue
-                
-                amount_input = float(input("New Amount (leave blank to keep current): ").strip())
-                category_input = input("New Category (leave blank to keep current): ").strip()
-                date_input = input("New Date (DD-MM-YYYY, leave blank to keep current): ").strip()
-                
-                amount = amount_input if amount_input else None
-                category = category_input if category_input else None
-                date = date_input if date_input else None
-                
-                if self.manager.update_transaction(id, amount, category, date):
-                    print(Fore.GREEN + f"Transaction {id} updated.\n")
-                else:
-                    print(Fore.RED + "Transaction ID not found.")
+                break
             except ValueError:
-                print(Fore.RED + "Invalid input.")
+                print(Fore.RED + "Invalid ID format. Please enter a number.")
+        
+        while True:
+            try:
+                amount_input = input(f"New Amount (Current: {selected_entry['amount']}, press enter to keep current): ").strip()
+                if not amount_input:
+                    amount = selected_entry['amount']
+                else:
+                    try:
+                        amount = float(amount_input)
+                        if not self.validator.amountValidation(amount):
+                            print(Fore.RED + "Amount cannot be zero or negative!")
+                            continue
+                    except ValueError:
+                        print(Fore.RED + "Invalid amount format.")
+                        continue
+                    
+                category_input = input(f"New Category (Current: {selected_entry['category']}, press enter to keep current): ").strip()
+                if not category_input:
+                    category = selected_entry['category']
+                else:
+                    if not self.validator.categoryValidation(category_input):
+                        print(Fore.RED + "Category must be at least 3 characters long and contain only letters.")
+                        continue
+                    category = category_input
+                                
+                date_input = input(f"New Date (DD-MM-YYYY, Current: {selected_entry['date']}, press enter to keep current): ").strip()
+                if not date_input:
+                    date = selected_entry['date']
+                else:
+                    if not self.validator.dateValidation(date_input):
+                        print(Fore.RED + "Invalid date format. Please use DD-MM-YYYY.")
+                        continue
+                    date = date_input
+
+                if self.manager.update_transaction(id, amount, category, date):
+                    print(Fore.GREEN + f"Transaction {id} updated successfully!\n")
+                    break 
+                else:
+                    print(Fore.RED + "Failed to update transaction.")
+            except ValueError:
+                print(Fore.RED + "Invalid Transaction ID format.")
             break   
     
     #view summary report method
